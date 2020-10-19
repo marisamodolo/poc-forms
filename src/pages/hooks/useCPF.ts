@@ -14,7 +14,7 @@ const useCPF = () => {
     cpfFormatter.apply(CPF),
     setDocumentWithMask,
     "000.000.000-00",
-    CPF.length === 14,
+    CPF.length === 11,
   ];
 };
 

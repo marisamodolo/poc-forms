@@ -1,21 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
 
 import useCPF from "./hooks/useCPF";
 
+/**
+ *
+ * Nome
+ * CPF
+ * Ano de nascimento (seletor)
+ * Algum tipo de pergunta com checkbox
+ * Algum tipo de pergunta com radio group
+ * Uma textarea
+ * Um campo de password
+ * Um campo de confirm password
+ */
+
 const VanillaForm = () => {
-  const [text, setText] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [formData, setFormData] = useState({});
   const [status, setStatus] = useState("pristine");
-  const [CPF, setCPF, placeholderCPF, isValid] = useCPF();
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [CPF, setCPF, placeholderCPF, isValidCPF] = useCPF();
+
+  useEffect(() => {
+    const isValid =
+      name !== "" &&
+      name.length > 2 &&
+      isValidCPF &&
+      password !== "" &&
+      password.length > 8 &&
+      password === passwordConfirmation;
+    setStatus(isValid ? "valid" : "invalid");
+
+    console.log(
+      name !== "",
+      name.length > 2,
+      isValidCPF,
+      password !== "",
+      password.length > 8,
+      password === passwordConfirmation
+    );
+  }, [name, password, passwordConfirmation, CPF]);
 
   function onSubmit() {
-    setStatus(isValid ? "valid" : "invalid");
     setFormData({
-      text,
+      name,
       CPF,
+      password,
+      passwordConfirmation,
     });
   }
 
@@ -52,8 +85,9 @@ const VanillaForm = () => {
         <TextInput
           style={{ height: 32 }}
           placeholder="Digite aqui seu nome"
-          onChangeText={(text) => setText(text)}
-          defaultValue={text}
+          onChangeText={(text) => setName(text)}
+          defaultValue={name}
+          autoCompleteType="username"
         />
         <Text>CPF:</Text>
         <TextInput
@@ -62,10 +96,23 @@ const VanillaForm = () => {
           value={CPF}
           onChangeText={setCPF}
         />
-        <CheckBox
-          disabled={false}
-          value={toggleCheckBox}
-          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+        <Text>Senha:</Text>
+        <TextInput
+          style={{ height: 32 }}
+          placeholder="Digite aqui sua senha"
+          onChangeText={(text) => setPassword(text)}
+          defaultValue={password}
+          autoCompleteType="password"
+          secureTextEntry
+        />
+        <Text>Confirme sua senha:</Text>
+        <TextInput
+          style={{ height: 32 }}
+          placeholder="Digite aqui sua senha"
+          onChangeText={(text) => setPasswordConfirmation(text)}
+          defaultValue={passwordConfirmation}
+          autoCompleteType="password"
+          secureTextEntry
         />
         <Button onPress={onSubmit} title="Enviar" color="#841584" />
       </View>
