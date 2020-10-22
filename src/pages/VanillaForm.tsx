@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Picker, Button, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Text, TextInput, View } from 'react-native'
 
-import TextInputMask from 'react-native-text-input-mask'
+import { Picker } from '@react-native-community/picker'
+
+import MaskedTextField from '../components/MaskedTextField'
 
 import useCPF from '../hooks/useCPF'
 import useField from '../hooks/useField'
@@ -18,41 +20,17 @@ import useField from '../hooks/useField'
  * √ Um campo de confirm password
  */
 
-const VanillaForm = () => {
-  const [name, setName] = useState('')
-  const inputref = useRef()
-  const [ageGroup, setAgeGroup] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [formData, setFormData] = useState({})
-  const [status, setStatus] = useState('pristine')
-  const [CPF, setCPF, placeholderCPF, isValidCPF] = useCPF()
-  const [test, setTest, isTestValid] = useField(
-    '000.000-0',
-    '0000000',
-    (value: String) => value === '1111111'
-  )
+// import TextInputMask from 'react-native-text-input-mask'
 
-  useEffect(() => {
-    const isValid =
-      name !== '' &&
-      name.length > 2 &&
-      isValidCPF &&
-      password !== '' &&
-      password.length > 8 &&
-      password === passwordConfirmation
-    setStatus(isValid ? 'valid' : 'invalid')
-    console.log(isTestValid)
-  }, [name, password, passwordConfirmation, CPF, test])
+const CPFInput = ({ onChangeText }: MaskedTextField) => (
+  <MaskedTextField onChangeText={onChangeText} mask='000.000.000-00' />
+)
+
+const VanillaForm = () => {
+  const [formData, setFormData] = useState({})
 
   function onSubmit() {
-    setFormData({
-      ageGroup,
-      name,
-      CPF,
-      password,
-      passwordConfirmation,
-    })
+    console.log('submitted!')
   }
 
   return (
@@ -84,39 +62,19 @@ const VanillaForm = () => {
         >
           Vanilla Form
         </Text>
-        <Text>Test:</Text>
-        <TextInput
-          style={{ height: 32 }}
-          placeholder='test'
-          onChangeText={setTest}
-          onKeyPress={({ key }) => console.log(key)}
-          value={test}
-          autoCompleteType='username'
-        />
-        <Text>Nome:</Text>
+        {/* <Text>Nome:</Text>
         <TextInput
           style={{ height: 32 }}
           placeholder='Digite aqui seu nome'
           onChangeText={(text) => setName(text)}
           defaultValue={name}
           autoCompleteType='username'
-        />
+        /> */}
         <Text>CPF:</Text>
-        <TextInput
-          style={{ height: 32 }}
-          placeholder={placeholderCPF}
-          value={CPF}
-          onChangeText={setCPF}
+        <CPFInput
+          onChangeText={(raw) => setFormData({ ...formData, CPF: raw })}
         />
-        <TextInputMask
-          refInput={inputref}
-          onChangeText={(formatted, extracted) => {
-            console.log(formatted) // +1 (123) 456-78-90
-            console.log(extracted) // 1234567890
-          }}
-          mask={'+1 ([000]) [000] [00] [00]'}
-        />
-        <Picker
+        {/* <Picker
           selectedValue={ageGroup}
           style={{ height: 50, width: 150 }}
           onValueChange={(itemValue) => setAgeGroup(itemValue)}
@@ -144,16 +102,10 @@ const VanillaForm = () => {
           defaultValue={passwordConfirmation}
           autoCompleteType='password'
           secureTextEntry
-        />
+        /> */}
         <Button onPress={onSubmit} title='Enviar' color='#841584' />
-      </View>
-      <View
-        style={{
-          padding: 12,
-        }}
-      >
         <Text>Form data onSubmit:</Text>
-        <Text>{JSON.stringify(formData).replaceAll(',', ',\n')}</Text>
+        <Text>{JSON.stringify(formData)}</Text>
         <Text>Form status: {status}</Text>
       </View>
     </View>
