@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import InputText from '../components/InputText'
 import { Picker } from '@react-native-community/picker';
 import { CheckBox, DatePicker } from "native-base"
 import { useFormik } from 'formik';
@@ -26,11 +27,7 @@ const FormWithXState = () => {
           style={styles.inputText}
           onChangeText={handleChange('name')}
         />
-        <Text style={styles.text}>CPF </Text>
-        <TextInput
-          style={styles.inputText}
-          onChangeText={handleChange('CPF')}
-        />
+        <InputText name="CPF" label="CPF" handleChange={setFieldValue}/>
         <Text style={styles.text}>Data de nascimento </Text>
         <View style={styles.dateContainer}>
           <DatePicker
