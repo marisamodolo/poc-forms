@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TextInput } from 'react-native'
 import StringMask from 'string-mask'
 
-const unmask = (text: string) => text.replace(/\./g, '').replace('-', '')
+const unmask = (value: string) => value.replace(/\D+/g, '')
 
 type MaskedTextField = {
   mask: string

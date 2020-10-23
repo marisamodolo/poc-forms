@@ -5,9 +5,6 @@ import { Picker } from '@react-native-community/picker'
 
 import MaskedTextField from '../components/MaskedTextField'
 
-import useCPF from '../hooks/useCPF'
-import useField from '../hooks/useField'
-
 /**
  *
  * √ Nome
@@ -70,7 +67,7 @@ const VanillaForm = () => {
           defaultValue={name}
           autoCompleteType='username'
         /> */}
-        <Text>CPF:</Text>
+        <Text>CPaaaF:</Text>
         <CPFInput
           onChangeText={(raw) => setFormData({ ...formData, CPF: raw })}
         />
@@ -106,7 +103,6 @@ const VanillaForm = () => {
         <Button onPress={onSubmit} title='Enviar' color='#841584' />
         <Text>Form data onSubmit:</Text>
         <Text>{JSON.stringify(formData)}</Text>
-        <Text>Form status: {status}</Text>
       </View>
     </View>
   )
