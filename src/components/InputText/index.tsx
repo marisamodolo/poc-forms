@@ -3,14 +3,22 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { documentToString, removeNonDigits } from '../../utils/documentFormatter'
 
 
-const InputText = ({ name, label, handleChange} : { name: string, label: string, handleChange: void }) => {
+const InputText = (
+  { name, label, handleChange, error, touched, mask }
+  :
+  { name: string, label: string, handleChange: void, error: string | undefined, touched: boolean | undefined, mask: boolean }
+) => {
   const [formattedValue, setFormattedValue] = useState('')
 
   const onChange = ({ name, value}: { name: string, value: string }) => {
-    const formatedDocument = documentToString(value)
-    const rawDocument = removeNonDigits(value)
-    setFormattedValue(formatedDocument)
-    handleChange(name, rawDocument)
+    if(mask) {
+      const formatedDocument = documentToString(value)
+      const rawDocument = removeNonDigits(value)
+      setFormattedValue(formatedDocument)
+      return handleChange(name, rawDocument)
+    }
+    setFormattedValue(value)
+    handleChange(name, value)
   }
 
   return (
@@ -21,6 +29,9 @@ const InputText = ({ name, label, handleChange} : { name: string, label: string,
         style={styles.inputText}
         onChangeText={value => onChange({ name, value })}
       />
+      {error && touched && (
+        <Text style={styles.error}>{error}</Text>
+      )}
     </View>
   )
 }
@@ -37,6 +48,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#841584",
   },
+  error: {
+    color: "#991914",
+    fontWeight: "bold",
+    marginTop: 3,
+  }
 })
 
 export default InputText

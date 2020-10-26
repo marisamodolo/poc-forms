@@ -1,33 +1,58 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import InputText from '../components/InputText'
 import { Picker } from '@react-native-community/picker';
 import { CheckBox, DatePicker } from "native-base"
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-const FormWithXState = () => {
-  const { handleChange, handleSubmit, values, setFieldValue} = useFormik({
+const FormSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Muito curto!')
+    .max(50, 'Muito longo!')
+    .required('É necessário informar o nome.'),
+  CPF: Yup.string()
+    .min(11, 'CPF incorreto.')
+    .max(11, 'CPF incorreto.')
+    .matches(/^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}|[0-9]{2})$/, 'CPF inválido.')
+    .required('É necessário informar o CPF.'),
+  birthday: Yup.date().required('É necessário informar.'),
+  checked: Yup.boolean().oneOf([true], 'É necessário marcar.'),
+});
+
+const FormWithFormik = () => {
+  const { errors, touched, handleChange, handleSubmit, values, setFieldValue } = useFormik({
     initialValues: {
       name: '',
       CPF: '',
-      birthday: new Date(),
+      birthday: undefined,
       checked: false,
       favoriteFood: 'Macarrão',
     },
+    validationSchema: FormSchema,
     onSubmit: values => {
-      console.log(values)
+      alert(JSON.stringify(values))
     },
   });
 
   return (
     <View style={{ width: 300 }}>
       <View>
-        <Text style={styles.text}>Nome </Text>
-        <TextInput
-          style={styles.inputText}
-          onChangeText={handleChange('name')}
+        <InputText
+          name="name"
+          label="Nome"
+          handleChange={setFieldValue}
+          error={errors.name}
+          touched={touched.name}
         />
-        <InputText name="CPF" label="CPF" handleChange={setFieldValue}/>
+        <InputText
+          name="CPF"
+          label="CPF"a
+          handleChange={setFieldValue}
+          error={errors.CPF}
+          touched={touched.CPF}
+          mask
+        />
         <Text style={styles.text}>Data de nascimento </Text>
         <View style={styles.dateContainer}>
           <DatePicker
@@ -39,6 +64,9 @@ const FormWithXState = () => {
             placeHolderTextStyle={{ color: "#d3d3d3" }}
             onDateChange={(value) => setFieldValue('birthday', value)}
           />
+          {errors.birthday && (
+            <Text style={styles.error}>{errors.birthday}</Text>
+          )}
         </View>
         <Text style={styles.text}>Comida favorita </Text>
         <Picker
@@ -60,13 +88,16 @@ const FormWithXState = () => {
             MARCA AQUI!!
           </Text>
         </View>
+        {errors.checked && touched.checked && (
+          <Text style={styles.error}>{errors.checked}</Text>
+        )}
         <Button color="#841584" title="Enviar" onPress={handleSubmit} />
       </View>
       <Text style={styles.text}> FormData </Text>
       <View style={styles.formData}>
         <Text> name: {values.name} </Text>
         <Text> CPF: {values.CPF} </Text>
-        <Text> birthday: {values.birthday.toString()} </Text>
+        <Text> birthday: {values.birthday && ( values.birthday.toString()) } </Text>
         <Text> checked: {values.checked.toString()} </Text>
         <Text> favoriteFood: {values.favoriteFood} </Text>
       </View>
@@ -112,7 +143,12 @@ const styles = StyleSheet.create({
   formData: {
     borderColor: "#000030",
     borderWidth: 1,
+  },
+  error: {
+    color: "#991914",
+    fontWeight: "bold",
+    marginLeft: 10
   }
 });
 
-export default FormWithXState
+export default FormWithFormik
