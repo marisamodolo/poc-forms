@@ -4,34 +4,43 @@ import StringMask from 'string-mask'
 
 const unmask = (value: string) => value.replace(/\D+/g, '')
 
-type MaskedTextField = {
+type MaskedTextField = TextInput & {
   mask: string
   unmask: (formatted: string) => string
   onChangeText: (raw: string, formatted: string) => void
 }
 
-const MaskedTextField = ({ onChangeText, mask, unmask }: MaskedTextField) => {
+const MaskedTextField = ({
+  onChangeText,
+  mask,
+  unmask,
+  ...props
+}: MaskedTextField) => {
   const [formatter] = useState(new StringMask(mask))
   const [value, setValue] = useState('')
 
-  function setValueWithMask(text: string) {
-    if (text.length > mask.length) return
-    const newValue = unmask(text)
-    setValue(newValue)
-    onChangeText(newValue, formatter.apply(newValue))
+  function unmaskValue() {
+    setValue(unmask(value))
+  }
+
+  function maskValue() {
+    setValue(formatter.apply(value))
+  }
+
+  function handleChange(text: string) {
+    setValue(text)
+    onChangeText(value, formatter.apply(value))
   }
 
   return (
     <TextInput
       placeholder={mask}
-      value={formatter.apply(value)}
-      onChangeText={setValueWithMask}
-      onKeyPress={(e) => {
-        if (e.key === 'Backspace') {
-          setValueWithMask(value.slice(0, -1))
-          e.preventDefault()
-        }
-      }}
+      value={value}
+      onFocus={unmaskValue}
+      onBlur={maskValue}
+      onChangeText={handleChange}
+      {...props}
+      // Would need to limit maxLength depending on state: editing (11) vs idle (14)
     />
   )
 }
