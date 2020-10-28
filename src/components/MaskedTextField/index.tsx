@@ -14,17 +14,21 @@ const MaskedTextField = ({
   onChangeText,
   mask,
   unmask,
+  maxLength,
   ...props
 }: MaskedTextField) => {
   const [formatter] = useState(new StringMask(mask))
   const [value, setValue] = useState('')
+  const [isEditing, setIsEditing] = useState(false)
 
-  function unmaskValue() {
+  function handleFocus() {
     setValue(unmask(value))
+    setIsEditing(true)
   }
 
-  function maskValue() {
+  function handleBlur() {
     setValue(formatter.apply(value))
+    setIsEditing(false)
   }
 
   function handleChange(text: string) {
@@ -36,11 +40,11 @@ const MaskedTextField = ({
     <TextInput
       placeholder={mask}
       value={value}
-      onFocus={unmaskValue}
-      onBlur={maskValue}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       onChangeText={handleChange}
+      maxLength={isEditing ? maxLength : null}
       {...props}
-      // Would need to limit maxLength depending on state: editing (11) vs idle (14)
     />
   )
 }

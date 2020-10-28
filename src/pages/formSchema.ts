@@ -6,8 +6,8 @@ const FormSchema = Yup.object().shape({
     .max(50, 'Muito longo!')
     .required('É necessário informar o nome.'),
   CPF: Yup.string()
-    .min(13, 'CPF incorreto.')
-    // .matches(/^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}|[0-9]{2})$/, 'CPF inválido.')
+    .min(11, 'CPF incorreto.')
+    .matches(/[0-9]{11}/, 'CPF inválido.')
     .required('É necessário informar o CPF.'),
   birthday: Yup.date().required('É necessário informar.'),
   checked: Yup.boolean().oneOf([true], 'É necessário marcar.'),

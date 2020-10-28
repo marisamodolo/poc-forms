@@ -5,12 +5,13 @@ import MaskedTextField from '../components/MaskedTextField'
 // import TextInputMask from 'react-native-text-input-mask'
 
 import FormSchema from './formSchema'
+import styles from './styles'
 
 const CPFInput = ({ onChangeText }: MaskedTextField) => (
   <MaskedTextField
     keyboardType='numeric'
     mask='000.000.000-00'
-    maxLength={14}
+    maxLength={11}
     onChangeText={onChangeText}
   />
 )
@@ -33,12 +34,7 @@ const VanillaForm = () => {
   }
 
   return (
-    <View
-      style={{
-        width: '100%',
-        padding: 20,
-      }}
-    >
+    <View style={styles.pageContainer}>
       <Text>Nome:</Text>
       <TextInput
         placeholder='Digite aqui seu nome'
