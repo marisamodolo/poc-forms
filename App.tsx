@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import FormWithXState from './src/pages/FormWithXState';
+import FormWithXState from './src/pages/XStateForm';
 
 export default function App() {
   return (

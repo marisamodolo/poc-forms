@@ -10,7 +10,7 @@ const initialContext = {
   CPF: '',
   birthday: '',
   checked: false,
-  favoriteFood: 'macarrão',
+  favoriteFood: 'Macarrão',
 }
 
 const formMachine = Machine({
@@ -18,7 +18,6 @@ const formMachine = Machine({
   context: initialContext,
   states: {
     idle: {
-      entry: "log",
       on: {
         typing: {
           actions: "typing",
@@ -41,8 +40,8 @@ const formMachine = Machine({
   },
   {
     actions: {
-      typing: assign((context, {name, value}) => ({...context, [name]: value})),
-      log: (context, event) => console.log(context),
+      typing: assign((context, { name, value }) => ({...context, [name]: value})),
+      log: (context, event) => alert(JSON.stringify(context)),
       clear: assign(() => initialContext)
     }
   },
@@ -56,25 +55,27 @@ interface IHandleChange {
 const FormWithXState = () => {
   const [current, send] = useMachine(formMachine)
 
+  const { context } = current
+
   const handleChange = ({ name, value }:IHandleChange) => send("typing", { name, value })
 
   return (
     <View>
       <Text style={styles.text}>Nome </Text>
       <TextInput
-        value={current.context.name}
+        value={context.name}
         style={styles.inputText}
         onChangeText={text => handleChange({ name: "name", value: text})}
       />
       <Text style={styles.text}>CPF </Text>
       <TextInput
-        value={current.context.CPF}
+        value={context.CPF}
         style={styles.inputText}
         onChangeText={text => handleChange({ name: "CPF", value: text})}
       />
       <Text style={styles.text}>Comida favorita </Text>
       <Picker
-        selectedValue={current.context.favoriteFood}
+        selectedValue={context.favoriteFood}
         style={styles.dropdown}
         onValueChange={(itemValue, itemIndex) =>
           handleChange({name: "favoriteFood", value: itemValue })
@@ -85,11 +86,11 @@ const FormWithXState = () => {
       </Picker>
       <View style={styles.container}>
         <CheckBox
-          checked={current.context.checked}
-          color={current.context.checked ? "#fc5185" : "#000030" }
-          onPress={() => handleChange({ name: "checked", value: !current.context.checked})}
+          checked={context.checked}
+          color={context.checked ? "#fc5185" : "#000030" }
+          onPress={() => handleChange({ name: "checked", value: !context.checked})}
         />
-        <Text style={{...styles.checkBoxText, color: current.context.checked ? "#fc5185" : "#000030" }}>
+        <Text style={{...styles.checkBoxText, color: context.checked ? "#fc5185" : "#000030" }}>
           MARCA AQUI!!
         </Text>
       </View>
@@ -97,6 +98,14 @@ const FormWithXState = () => {
         send("stoppedTyping")
         send("submit")
       }} />
+      <Text style={styles.text} >FormData</Text>
+      <View style={styles.dataContainer}>
+        <Text>name: {context.name}</Text>
+        <Text>CPF: {context.CPF}</Text>
+        <Text>birthday: {context.birthday}</Text>
+        <Text>checked: {context.checked}</Text>
+        <Text>favoriteFood: {context.favoriteFood}</Text>
+      </View>
     </View>
   );
 }
@@ -111,6 +120,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0EBE9",
     paddingVertical: 5,
     borderRadius: 50,
+  },
+  dataContainer: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 4
   },
   inputText: {
     height: 40,
