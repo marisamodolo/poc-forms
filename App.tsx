@@ -1,22 +1,20 @@
-import React from "react";
-import VanillaForm from "./src/pages/VanillaForm";
-import { StyleSheet, View } from 'react-native';
-import FormWithFormik from './src/pages/FormWithFormik';
+import React from 'react'
+import { Container, Tab, Tabs } from 'native-base'
+
+import VanillaForm from './src/pages/VanillaForm'
+import FormikForm from './src/pages/FormikForm'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <VanillaForm />
-      <FormWithFormik />
-    </View>
-  );
+    <Container>
+      <Tabs>
+        <Tab heading='Vanilla'>
+          <VanillaForm />
+        </Tab>
+        <Tab heading='Formik'>
+          <FormikForm />
+        </Tab>
+      </Tabs>
+    </Container>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

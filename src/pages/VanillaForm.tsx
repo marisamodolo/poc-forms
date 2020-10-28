@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Text, TextInput, View, Picker } from 'react-native'
 import { CheckBox, DatePicker } from 'native-base'
-import * as Yup from 'yup'
 import MaskedTextField from '../components/MaskedTextField'
 // import TextInputMask from 'react-native-text-input-mask'
+
+import FormSchema from './formSchema'
 
 const CPFInput = ({ onChangeText }: MaskedTextField) => (
   <MaskedTextField
@@ -13,25 +14,6 @@ const CPFInput = ({ onChangeText }: MaskedTextField) => (
     onChangeText={onChangeText}
   />
 )
-
-const FormSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Muito curto!')
-    .max(50, 'Muito longo!')
-    .required('É necessário informar o nome.'),
-  CPF: Yup.string()
-    .min(13, 'CPF incorreto.')
-    .required('É necessário informar o CPF.'),
-  birthday: Yup.date().required('É necessário informar.'),
-  checked: Yup.boolean().oneOf([true], 'É necessário marcar.'),
-  password: Yup.string()
-    .min(8, 'Senha muito pequena')
-    .required('É necessário ter uma senha'),
-  passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Confirmação de senha incorreta'
-  ),
-})
 
 const VanillaForm = () => {
   const [formData, setFormData] = useState({
@@ -53,25 +35,10 @@ const VanillaForm = () => {
   return (
     <View
       style={{
-        marginTop: 10,
         width: '100%',
-        borderTopColor: '#ccc',
-        borderTopWidth: 1,
-        borderBottomColor: '#ccc',
-        borderBottomWidth: 1,
         padding: 20,
       }}
     >
-      <Text
-        style={{
-          borderBottomColor: '#ccc',
-          borderBottomWidth: 1,
-          marginBottom: 10,
-          paddingBottom: 10,
-        }}
-      >
-        Vanilla Form
-      </Text>
       <Text>Nome:</Text>
       <TextInput
         placeholder='Digite aqui seu nome'
