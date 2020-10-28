@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { TextInput } from 'react-native'
+import { TextInput, View, Text } from 'react-native'
 import StringMask from 'string-mask'
-
-const unmask = (value: string) => value.replace(/\D+/g, '')
+import styles from './styles'
 
 type MaskedTextField = TextInput & {
   mask: string
@@ -37,20 +36,25 @@ const MaskedTextField = ({
   }
 
   return (
-    <TextInput
-      placeholder={mask}
-      value={value}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onChangeText={handleChange}
-      maxLength={isEditing ? maxLength : null}
-      {...props}
-    />
+    <View>
+      <Text style={styles.text}>{props.label}</Text>
+      <TextInput
+        placeholder={props.placeholder || mask}
+        value={value}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChangeText={handleChange}
+        maxLength={isEditing ? maxLength : null}
+        style={styles.inputText}
+        {...props}
+      />
+    </View>
   )
 }
 
 MaskedTextField.defaultProps = {
-  unmask,
+  mask: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  unmask: (value: string) => value,
 }
 
 export default MaskedTextField

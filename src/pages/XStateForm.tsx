@@ -4,7 +4,7 @@ import { assign, Machine } from 'xstate';
 import { useMachine } from '@xstate/react'
 import { Picker } from '@react-native-community/picker';
 import { CheckBox } from "native-base"
-
+import styles from './styles'
 const initialContext = {
   name: '',
   CPF: '',
@@ -60,7 +60,7 @@ const FormWithXState = () => {
   const handleChange = ({ name, value }:IHandleChange) => send("typing", { name, value })
 
   return (
-    <View>
+    <View style={styles.pageContainer}>
       <Text style={styles.text}>Nome </Text>
       <TextInput
         value={context.name}
@@ -99,7 +99,7 @@ const FormWithXState = () => {
         send("submit")
       }} />
       <Text style={styles.text} >FormData</Text>
-      <View style={styles.dataContainer}>
+      <View style={styles.formData}>
         <Text>name: {context.name}</Text>
         <Text>CPF: {context.CPF}</Text>
         <Text>birthday: {context.birthday}</Text>
@@ -109,44 +109,5 @@ const FormWithXState = () => {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "flex-start",
-    marginVertical: 20,
-    backgroundColor: "#F0EBE9",
-    paddingVertical: 5,
-    borderRadius: 50,
-  },
-  dataContainer: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 4
-  },
-  inputText: {
-    height: 40,
-    width: 300,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-  },
-  text: {
-    marginTop: 20,
-    fontWeight: "bold",
-    color: "#841584",
-  },
-  dropdown: {
-    width: 300,
-    height: 200,
-    marginTop: -40,
-  },
-  checkBoxText: {
-    fontWeight: "bold",
-    marginTop: 2,
-    marginLeft: 20,
-  }
-});
 
 export default FormWithXState
