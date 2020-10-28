@@ -17,10 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "me.pagar.poc.forms"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "android": {
+      "package": "me.pagar.poc.forms"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
