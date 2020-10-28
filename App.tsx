@@ -1,13 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import DefaultForm from "./src/pages/defaultForm";
 import VanillaForm from "./src/pages/VanillaForm";
+import { StyleSheet, View } from 'react-native';
+import FormWithFormik from './src/pages/FormWithFormik';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <DefaultForm />
       <VanillaForm />
+      <FormWithFormik />
     </View>
   );
 }
