@@ -39,10 +39,11 @@ const Form = ({ formData, onChangeField, onSubmit }: Form ) => {
       <Text>CPF Native Mask</Text>
       <TextInputMask
         refInput={ref}
+        // value={formData.CPF2}
         onChangeText={(formatted: string, extracted: string) => {
           onChangeField("CPF2", extracted)
         }}
-        mask={"[000].[000].[000]-[00]"}
+        mask="[000].[000].[000]-[00]"
       />
       <Text style={styles.text}>Comida favorita </Text>
       <Picker
