@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 40,
-    width: 300,
     borderWidth: 0,
     borderBottomWidth: 1,
   },
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
     color: '#841584',
   },
   dropdown: {
-    width: 300,
     height: 200,
     marginTop: -40,
   },
