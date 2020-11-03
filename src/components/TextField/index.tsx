@@ -7,11 +7,13 @@ type TextFieldProps = TextInputProps & {
   label: string
   mask?: string
   placeholder?: string
+  error?: string
 }
 
 const TextField: React.FC<TextFieldProps> = ({
   label,
   onChangeText,
+  error,
   ...props
 }) => {
   const ref = useRef(null)
@@ -27,6 +29,9 @@ const TextField: React.FC<TextFieldProps> = ({
         }}
         {...props}
       />
+      {error && (
+        <Text>{error}</Text>
+      )}
     </View>
   )
 }

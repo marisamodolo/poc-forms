@@ -14,10 +14,10 @@ const FormikForm = () => {
     initialValues: {
       name: '',
       CPF: '',
-      CPF2: '',
-      birthday: undefined,
       checked: false,
       favoriteFood: 'Macarrão',
+      password: '',
+      passwordConfirmation: ''
     },
     validationSchema: FormSchema,
     onSubmit: (values) => {
@@ -28,6 +28,7 @@ const FormikForm = () => {
   return (
     <Form
       formData={values}
+      errors={errors}
       onChangeField={setFieldValue}
       onSubmit={handleSubmit}
     />

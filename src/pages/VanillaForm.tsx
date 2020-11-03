@@ -5,23 +5,28 @@ import FormSchema from './formSchema'
 const VanillaForm = () => {
   const [formData, setFormData] = useState({
     checked: false,
-    name: '',
-    password: '',
-    passwordConfirmation: '',
-    CPF: '',
-    birthday: '',
-    food: '',
+    // name: '',
+    // password: '',
+    // passwordConfirmation: '',
+    // CPF: '',
+    // birthday: '',
+    // food: '',
   })
+  const [errors, setErrors] = useState({})
 
-  function onSubmit() {
-    FormSchema.isValid(formData).then((valid) => {
-      console.log('submitted! Form is valid: ', valid)
+  async function onSubmit() {
+    await FormSchema.validate(formData, { abortEarly: false })
+    .catch(({inner})=> {
+      const result = {}
+      inner.forEach(({ path, message }) => result[path] = message)
+      setErrors(result)
     })
   }
 
   return (
     <Form
       formData={formData}
+      errors={errors}
       onChangeField={(fieldName, value) => setFormData({...formData, [fieldName]: value}) }
       onSubmit={onSubmit}
     />
