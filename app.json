@@ -1,31 +1,4 @@
 {
-  "expo": {
-    "name": "forms-POC",
-    "slug": "forms-POC",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "me.pagar.poc.forms"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "android": {
-      "package": "me.pagar.poc.forms"
-    },
-    "entryPoint": "node_modules/expo/AppEntry.js"
-  }
+  "name": "forms",
+  "displayName": "forms"
 }

@@ -22,8 +22,8 @@ const TextField: React.FC<TextFieldProps> = ({
       <TextInputMask
         style={styles.inputText}
         refInput={ref}
-        onChangeText={(_: string, raw: string) => {
-          if (onChangeText) onChangeText(raw)
+        onChangeText={(formatted: string, raw: string) => {
+          if (onChangeText) onChangeText(raw || formatted)
         }}
         {...props}
       />
