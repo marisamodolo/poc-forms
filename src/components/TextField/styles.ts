@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 40,
-    width: 300,
     borderWidth: 0,
     borderBottomWidth: 1,
   },

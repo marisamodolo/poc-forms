@@ -2,9 +2,8 @@ import React, { FormEvent, ReactText, useRef } from 'react'
 import { Button, Text, TextInput, View } from 'react-native'
 import { Picker } from '@react-native-community/picker'
 import { CheckBox, DatePicker } from 'native-base'
-import MaskedTextField from '../components/MaskedTextField'
-import TextInputMask from 'react-native-text-input-mask'
 import styles from './styles'
+import TextField from '../components/TextField'
 
 type Form = {
   formData: {
@@ -21,39 +20,24 @@ type Form = {
   onSubmit: (values: FormEvent<HTMLFormElement>) => void
 }
 
-const unmask = (value: string) => value.replace(/\D+/g, '')
-
 const Form = ({ formData, onChangeField, onSubmit }: Form) => {
-  const ref = useRef()
-
   return (
     <View style={styles.pageContainer}>
-      <MaskedTextField
+      <TextField
         label='Nome'
-        placeholder='Seu nome completo'
         onChangeText={(value) => onChangeField('name', value)}
+        placeholder='Seu nome completo'
         // error={errors.name}
         // touched={touched.name}
       />
-      <MaskedTextField
-        label='CPF Vanilla Mask'
-        mask='000.000.000-00'
-        onChangeText={(value) => onChangeField('CPF', value)}
-        unmask={unmask}
+      <TextField
         keyboardType='numeric'
-        maxLength={11}
-        // error={errors.CPF}
-        // touched={touched.CPF}
-      />
-      <Text style={styles.text}>CPF Native Mask</Text>
-      <TextInputMask
-        style={styles.inputText}
-        refInput={ref}
-        onChangeText={(_: string, extracted: string) => {
-          onChangeField('CPF2', extracted)
+        label='CPF'
+        mask='[000].[000].[000]-[00]'
+        onChangeText={(extracted) => {
+          onChangeField('CPF', extracted)
         }}
         placeholder='000.000.000-00'
-        mask='[000].[000].[000]-[00]'
       />
       <Text style={styles.text}>Comida favorita </Text>
       <Picker
