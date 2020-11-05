@@ -7,12 +7,15 @@ import TextField from '../components/TextField'
 
 type Form = {
   formData: {
-    name: string
-    CPF: string
-    favoriteFood: string
+    name?: string
+    CPF?: string
+    favoriteFood?: string
     checked: boolean
-    password: string
-    passwordConfirmation: string
+    password?: string
+    passwordConfirmation?: string
+  }
+  errors: {
+    [key: string]: string[]
   }
   onChangeField: (fieldType: string, value: string) => void
   onSubmit: (values: FormEvent<HTMLFormElement>) => void
@@ -62,9 +65,9 @@ const Form = ({ formData, onChangeField, onSubmit, errors }: Form) => {
           MARCA AQUI!!
         </Text>
       </View>
-      {errors.checked && (<Text>{errors.checked} </Text>)}
+      {errors.checked && <Text>{errors.checked} </Text>}
       <TextField
-        label="Senha:"
+        label='Senha:'
         placeholder='Digite aqui sua senha'
         onChangeText={(password) => onChangeField('password', password)}
         autoCompleteType='password'
@@ -72,7 +75,7 @@ const Form = ({ formData, onChangeField, onSubmit, errors }: Form) => {
         error={errors.password}
       />
       <TextField
-        label="Confirme sua senha"
+        label='Confirme sua senha'
         placeholder='Digite sua senha novamente'
         onChangeText={(password) =>
           onChangeField('passwordConfirmation', password)

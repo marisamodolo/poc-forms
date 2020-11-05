@@ -1,33 +1,24 @@
 import React, { useState } from 'react'
 import Form from '../containers/Form'
-import FormSchema from './formSchema'
+import schema from './formSchema'
+import validate from '../utils/validateSchema'
 
 const VanillaForm = () => {
-  const [formData, setFormData] = useState({
-    checked: false,
-    // name: '',
-    // password: '',
-    // passwordConfirmation: '',
-    // CPF: '',
-    // birthday: '',
-    // food: '',
-  })
+  const [formData, setFormData] = useState({ checked: false })
   const [errors, setErrors] = useState({})
 
   async function onSubmit() {
-    await FormSchema.validate(formData, { abortEarly: false })
-    .catch(({inner})=> {
-      const result = {}
-      inner.forEach(({ path, message }) => result[path] = message)
-      setErrors(result)
-    })
+    const result = await validate(schema, formData)
+    setErrors(result)
   }
 
   return (
     <Form
       formData={formData}
       errors={errors}
-      onChangeField={(fieldName, value) => setFormData({...formData, [fieldName]: value}) }
+      onChangeField={(fieldName, value) =>
+        setFormData({ ...formData, [fieldName]: value })
+      }
       onSubmit={onSubmit}
     />
   )
