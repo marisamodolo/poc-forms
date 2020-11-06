@@ -11,6 +11,8 @@
 - Não vimos muitos benefícios em relação ao Vanilla.
 ```
 
+Obs.: A validação onChange do Formik depende da prop `touched`, para validação individual dos campos.
+
 ### Vanilla
 ```
 + Mais controle/adaptabilidade para nossas necessidades
@@ -25,9 +27,18 @@ Julgamos pela API e pelas features oferecidas que não superam Formik/Vanilla.
 
 ### Conclusão
 Levando em conta as diferentes opções, acreditamos que Vanilla é a melhor opção porque nenhuma das outras opções adiciona valor o suficiente para justificar seu custo.
+- Não temos todos os components necessários a partir da lib nativa e vários que testamos apresentaram problemas diferentes.
+- Overhead de bibliotecas externas
+- Storybook não será utilizável
 
-## XState
--
+Não encontramos uma forma mais prática do que fazer da forma mais Vanilla possível.
+
+### Validadores
+
+Testamos superstruct, Yup e Nope.
+Superstruct foi mais contra-intuitivo para implementação do que Yup e Nope.
+Yup vimos que funciona muito bem com Formik, porém sua implementação no Vanilla ficou a desejar pela forma que retorna os erros.
+Nope oferece uma API praticamente identica ao Yup, com a diferença de ser mais enxuta e rápida por abrir mão de features assíncronas. E também não precisamos criar/usar um utilitário pois por padrão ele devolve um dicionário de erros.
 
 ## Uso de Máscaras
 Optamos seguir com `react-native-text-input-mask` por sua facilidade de implementação e por estar sendo mantida.
